@@ -1,0 +1,54 @@
+<div class="dashboard-wrapper">
+  <header class="topbar">
+    <div class="topbar-left">
+      <h1>Student Registrations</h1>
+      <span class="count" *ngIf="!loading">{{ students.length }} record{{ students.length === 1 ? '' : 's' }}</span>
+    </div>
+    <button class="btn-logout" (click)="logout()">Logout</button>
+  </header>
+
+  <div class="content">
+    <div class="loading-msg" *ngIf="loading">Loading registrations...</div>
+
+    <div class="err-box" *ngIf="errorMsg">{{ errorMsg }}</div>
+
+    <div class="empty-msg" *ngIf="!loading && students.length === 0 && !errorMsg">
+      No registrations found yet.
+    </div>
+
+    <div class="table-wrap" *ngIf="!loading && students.length > 0">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Date of Birth</th>
+            <th>Gender</th>
+            <th>Course</th>
+            <th>Batch Year</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Registered On</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let s of students; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ s.firstName }} {{ s.middleName ? s.middleName + ' ' : '' }}{{ s.lastName }}</td>
+            <td>{{ s.email }}</td>
+            <td>{{ s.phoneNumber }}</td>
+            <td>{{ formatDate(s.dateOfBirth) }}</td>
+            <td>{{ s.gender }}</td>
+            <td>{{ s.courseEnrolled }}</td>
+            <td>{{ formatDate(s.batchYear) }}</td>
+            <td>{{ s.city || '-' }}</td>
+            <td>{{ s.state || '-' }}</td>
+            <td>{{ formatDate(s.registeredAt) }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

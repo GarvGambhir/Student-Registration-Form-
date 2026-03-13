@@ -1,0 +1,4 @@
+# Ignore AI Tracking Folders
+.claude/
+.gemini/
+.DS_Store

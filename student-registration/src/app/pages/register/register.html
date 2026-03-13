@@ -1,0 +1,190 @@
+<div class="page-wrapper">
+  <div class="form-card" *ngIf="!submitted">
+    <div class="form-header">
+      <h1>Student Registration</h1>
+      <p>Fill in the details below to register. Fields marked <span class="req">*</span> are required.</p>
+    </div>
+
+    <form #regForm="ngForm" (ngSubmit)="onSubmit(regForm)" novalidate>
+
+      <div class="section-title">Personal Information</div>
+
+      <div class="row-2">
+        <div class="field">
+          <label>First Name <span class="req">*</span></label>
+          <input
+            type="text"
+            name="firstName"
+            [(ngModel)]="formData.firstName"
+            required
+            #firstName="ngModel"
+            placeholder="Enter first name"
+          />
+          <span class="err" *ngIf="firstName.invalid && firstName.touched">First name is required</span>
+        </div>
+
+        <div class="field">
+          <label>Middle Name</label>
+          <input
+            type="text"
+            name="middleName"
+            [(ngModel)]="formData.middleName"
+            placeholder="Enter middle name (optional)"
+          />
+        </div>
+      </div>
+
+      <div class="row-2">
+        <div class="field">
+          <label>Last Name <span class="req">*</span></label>
+          <input
+            type="text"
+            name="lastName"
+            [(ngModel)]="formData.lastName"
+            required
+            #lastName="ngModel"
+            placeholder="Enter last name"
+          />
+          <span class="err" *ngIf="lastName.invalid && lastName.touched">Last name is required</span>
+        </div>
+
+        <div class="field">
+          <label>Gender <span class="req">*</span></label>
+          <select name="gender" [(ngModel)]="formData.gender" required #gender="ngModel">
+            <option value="">-- Select Gender --</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+            <option value="Prefer not to say">Prefer not to say</option>
+          </select>
+          <span class="err" *ngIf="gender.invalid && gender.touched">Please select a gender</span>
+        </div>
+      </div>
+
+      <div class="row-2">
+        <div class="field">
+          <label>Date of Birth <span class="req">*</span></label>
+          <input
+            type="date"
+            name="dateOfBirth"
+            [(ngModel)]="formData.dateOfBirth"
+            required
+            #dob="ngModel"
+          />
+          <span class="err" *ngIf="dob.invalid && dob.touched">Date of birth is required</span>
+        </div>
+
+        <div class="field">
+          <label>Phone Number <span class="req">*</span></label>
+          <input
+            type="text"
+            name="phoneNumber"
+            [(ngModel)]="formData.phoneNumber"
+            required
+            pattern="[0-9]{10}"
+            #phone="ngModel"
+            placeholder="10-digit phone number"
+            maxlength="10"
+          />
+          <span class="err" *ngIf="phone.invalid && phone.touched">Enter a valid 10-digit phone number</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Email <span class="req">*</span></label>
+        <input
+          type="email"
+          name="email"
+          [(ngModel)]="formData.email"
+          required
+          email
+          #emailField="ngModel"
+          placeholder="you@example.com"
+        />
+        <span class="err" *ngIf="emailField.invalid && emailField.touched">Enter a valid email address</span>
+      </div>
+
+      <div class="section-title">Academic Information</div>
+
+      <div class="row-2">
+        <div class="field">
+          <label>Course Enrolled <span class="req">*</span></label>
+          <select name="courseEnrolled" [(ngModel)]="formData.courseEnrolled" required #course="ngModel">
+            <option value="">-- Select Course --</option>
+            <option *ngFor="let c of courses" [value]="c">{{ c }}</option>
+          </select>
+          <span class="err" *ngIf="course.invalid && course.touched">Please select a course</span>
+        </div>
+
+        <div class="field">
+          <label>Batch Year <span class="req">*</span></label>
+          <input
+            type="number"
+            name="batchYear"
+            [(ngModel)]="formData.batchYear"
+            required
+            min="2000"
+            max="2099"
+            #batch="ngModel"
+            placeholder="e.g. 2025"
+          />
+          <span class="err" *ngIf="batch.invalid && batch.touched">Enter a valid batch year (2000–2099)</span>
+        </div>
+      </div>
+
+      <div class="section-title">Address <span class="optional-label">(Optional)</span></div>
+
+      <div class="field">
+        <label>Address</label>
+        <textarea
+          name="address"
+          [(ngModel)]="formData.address"
+          placeholder="Street address, flat number, etc."
+          rows="3"
+        ></textarea>
+      </div>
+
+      <div class="row-3">
+        <div class="field">
+          <label>City</label>
+          <input type="text" name="city" [(ngModel)]="formData.city" placeholder="City" />
+        </div>
+
+        <div class="field">
+          <label>State</label>
+          <input type="text" name="state" [(ngModel)]="formData.state" placeholder="State" />
+        </div>
+
+        <div class="field">
+          <label>Pincode</label>
+          <input
+            type="text"
+            name="pincode"
+            [(ngModel)]="formData.pincode"
+            pattern="[0-9]{6}"
+            #pin="ngModel"
+            placeholder="6-digit pincode"
+            maxlength="6"
+          />
+          <span class="err" *ngIf="pin.invalid && pin.touched">Enter a valid 6-digit pincode</span>
+        </div>
+      </div>
+
+      <div class="err-box" *ngIf="errorMsg">{{ errorMsg }}</div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn-primary" [disabled]="loading">
+          {{ loading ? 'Submitting...' : 'Register' }}
+        </button>
+      </div>
+
+    </form>
+  </div>
+
+  <div class="success-card" *ngIf="submitted">
+    <div class="success-icon">&#10003;</div>
+    <h2>Registration Successful!</h2>
+    <p>Your details have been submitted. You will be contacted shortly.</p>
+    <button class="btn-primary" (click)="resetForm()">Register Another Student</button>
+  </div>
+</div>
